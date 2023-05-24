@@ -391,7 +391,7 @@ export const getCardInfo = async (req, res) => {
 }
 //delete CardItem from Card 
 export const deleteCardItem = async (req, res) => {
-    const id = req.params.id;
+    const id = 1;
     try {
         const CardItem = await prisma.cardItem.delete({
             where: {
