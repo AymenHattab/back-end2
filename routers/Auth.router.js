@@ -23,7 +23,7 @@ router.post("/comercant/login",commercant_login)
 router.post("/comercant/register",commercant_register)
 router.post("/livreur/login",Livreur_login)
 
-//livreur register 
+//livreur register a
 router.post("/livreur/register",Livreur_register)
 
 export default router;
