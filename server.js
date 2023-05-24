@@ -12,7 +12,7 @@ import bcrypt from "bcrypt"
 const app=express()
 const port=process.env.PORT||8000
 
-//definir la methode a besoin 
+//definir la methode a besoin npm install nodemon --save
 app.use(cors())
 app.use("/Uploads",express.static("/Uploads"))
 app.use(bodyparser.json({limit: "50mb"}));
