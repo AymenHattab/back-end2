@@ -6,7 +6,7 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = "mysql://ulbrxwjvmx3vmosa:gzwIJvpQrhPnM5KJyBKc@bxbwlcscpjw3rwrz4blv-mysql.services.clever-cloud.com:3306/hgedb01"
+  url      = "mysql://umz5o4ftz1ulaken:xRRFFJqSwoZyskELMaiW@bdfqfyffxo7ntvyjbqfy-mysql.services.clever-cloud.com:3306/bdfqfyffxo7ntvyjbqfy"
 }
 
 model Admin {
