@@ -6,7 +6,7 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = "mysql://umz5o4ftz1ulaken:xRRFFJqSwoZyskELMaiW@bdfqfyffxo7ntvyjbqfy-mysql.services.clever-cloud.com:3306/bdfqfyffxo7ntvyjbqfy"
+  url      = "mysql://root:@localhost:3306/hgedb04"
 }
 
 model Admin {
@@ -29,7 +29,6 @@ model commercant {
   montant_actuelle Float? @default(0)
   isActive Boolean @default(true)
   historique historique[]
-  score Com_objective[]
   commande commande[]
   client client[]
 }
@@ -46,19 +45,13 @@ model objectif{
   id Int @default(autoincrement()) @id 
   Titel String 
   Description String
-  nbr_defi Int
-  score Com_objective[]
+  search String 
+  number String 
+  condition String 
+  reward String 
+  rewardreward String 
 }
 
-model Com_objective{
-  Idobj Int @unique
-  objective objectif @relation(fields: [Idobj],references: [id])
-   ComId Int @unique
-  commercant commercant @relation(fields: [ComId],references: [id])
-  Score Int 
-  isAchived Boolean
-  @@id([Idobj,ComId])
-}
 
 model commande{
   id Int @id
@@ -66,41 +59,26 @@ model commande{
   etat String @default("Confirmer")
   lat Float
   long Float
+  montant_total Float
   ispayed Boolean @default(false)
+  CardItem CardItem[]
   ComId Int ?
-  idCard Int @unique
-  Card Card? @relation(fields: [idCard],references: [id])
   commercant commercant? @relation(fields: [ComId],references: [id],onDelete: Cascade,onUpdate: Cascade)
   CliId Int?
   Client client? @relation(fields: [CliId],references: [id],onDelete: Cascade,onUpdate: Cascade)
   idliv Int?
   livreur livreur? @relation(fields: [idliv],references: [id],onDelete: Cascade,onUpdate: Cascade)
-  facture facture?
-  
 }
 
-model facture{
-  id Int @default(autoincrement()) @id
-  date DateTime @default(now())
-  montant Float
-  code_cmd Int @unique
-  commande commande @relation(fields: [code_cmd],references: [id],onDelete: Cascade,onUpdate: Cascade)
-
-}
 model CardItem{
   id Int @default(autoincrement()) @id
   idProduit Int
   qte_produit Int
-  Prix Float
   Produit produit @relation(fields: [idProduit],references: [id],onDelete: Cascade,onUpdate: Cascade)
-  idCard Int
-  Card Card @relation(fields: [idCard],references: [id],onDelete: Cascade,onUpdate: Cascade)
+  code_cmd  Int
+  commande commande @relation(fields: [code_cmd ],references: [id],onDelete: Cascade,onUpdate: Cascade)
 }
-model Card{
-  id Int  @id
-  commande commande?
-  CardItem CardItem[]
-}
+
 
 model produit{
   id Int @default(autoincrement()) @id
@@ -158,7 +136,7 @@ model livreur {
 
 model Rapport{
   id Int @default(autoincrement()) @id
-  Content String 
+  test String 
   Date DateTime @default(now())
   CliId Int?
   Client client? @relation(fields: [CliId],references: [id],onDelete: Cascade,onUpdate: Cascade)

@@ -3,11 +3,13 @@ const prisma = new PrismaClient();
 import { db } from "../db.configue.js";
 import moment from "moment";
 import Cloudinary from "../Cloudinary.js";
+import { transformDocument } from "@prisma/client/runtime/index.js";
 
 
 
 //obtenir les information de commercant et son historique 
 export const getAllComercantwithhistorique = async (req, res) => {
+    console.log("heklll")
     try {
         const id = req.params.id
         const Allcom = await prisma.commercant.findUnique({
@@ -18,7 +20,7 @@ export const getAllComercantwithhistorique = async (req, res) => {
                 historique: true,
                 client: true,
                 commande: true,
-                score: true
+               
             },
         })
         res.json(Allcom)
@@ -36,7 +38,7 @@ export const getclient_Commande = async (req, res) => {
                 id: Number(id)
             },
             include: {
-                commande: {include : {Card : {include :{CardItem :{include : {Produit : true}}}} , Client : true , facture : true ,}},
+                commande:  {include :{CardItem :{include : {Produit : true}}, Client : true  }  },
                 
             },
         })
@@ -46,13 +48,31 @@ export const getclient_Commande = async (req, res) => {
         res.status(500).send({ "msg": "somthing wreng" + error })
     }
 }
+export const stat_client = async (req, res) => {
+    try {
+        const id = req.params.idCom
+        const Allcom = await prisma.commercant.findUnique({
+            where: {
+                id: Number(id)
+            },
+            include: {
+                client : {include : {commande : 
+                    {include : {facture : true ,}}
+                }}
+               
+
+                
+            },
+        })
+        res.json(Allcom)
+    } catch (error) {
+        res.status(500).send({ "msg": "somthing wreng" + error })
+    }
+}
 //obtenir tous les informtion d'objective 
 export const AllObjective = async (req, res) => {
     try {
-        const objectif = await prisma.objectif.findMany({
-            include: {
-                score: true
-            }
+        const objectif = await prisma.objectif.findMany({     
         })
         res.json(objectif)
 
@@ -89,10 +109,11 @@ export const GetAllFacture = async (req, res) => {
                 id: Number(id)
             },
             include: {
-             Card : {include :{CardItem :{include : {Produit : true}}}} , Client : true , facture : true ,},
-                
-            },
-        )
+                Client : true ,
+            CardItem : {include : {Produit : true} }
+
+            }
+    })
         res.json(Allcom)
 
     } catch (error) {
@@ -174,18 +195,18 @@ export const Commercant_Update = async (req, res) => {
 export const AddCommande = async (req, res) => {
     let MyDate;
     MyDate = moment().format('YYYY-MM-DD');
-    const { idCard, ComId, CliId, lat, long, id } = req.body;
+    const {  ComId, CliId, lat, long, id , montantTotal } = req.body;
     console.log(req.body);
     try {
         const Command = await prisma.commande.create({
             data: {
-                idCard: parseInt(idCard),
                 ComId: parseInt(ComId),
                 CliId: parseFloat(CliId),
                 Date_cmd: MyDate,
                 lat: parseFloat(lat),
                 long: parseFloat(long),
-                id: parseInt(id)
+                id: parseInt(id), 
+                montant_total: parseFloat(montantTotal)
             }
         })
         if (Command) {
@@ -195,7 +216,7 @@ export const AddCommande = async (req, res) => {
             res.status(400).json("il y a Un Error")
         }
     } catch (error) {
-        res.status(500).send({ "msg": "il ya Un Error " + error })
+            res.status(500).send({ "msg": "il ya Un Error " + error })
     }
     console.log(res.status);
 }
@@ -351,14 +372,13 @@ export const addCard = async (req, res) => {
     }
 }*/
 export const AddCardItem = async (req, res) => {
-    const { idproduit, qte_produit, Prix, idcard } = req.body;
+    const { idproduit, qte_produit, code_cmd } = req.body;
     console.log(req.body)
     const AddCardItem = await prisma.cardItem.create({
         data: {
-            Prix: parseInt(Prix),
+            idProduit : parseInt(idproduit),
             qte_produit: parseInt(qte_produit),
-            idProduit: parseInt(idproduit),
-            idCard: parseInt(idcard)
+            code_cmd: parseInt(code_cmd)
         }
     })
     if (AddCardItem) {

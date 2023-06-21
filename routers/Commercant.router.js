@@ -8,6 +8,7 @@ import {
        GetAllFacture,
        GetFactureById,
        SearchProduct,
+       stat_client,
        Commercant_Update,
        AddCommande,
        DeleteCommande,
@@ -29,6 +30,7 @@ import {
 router.get("/commercant/:id",getAllComercantwithhistorique)
 //get the commande of client by id 
 router.get("/client/commande/:idCom",getclient_Commande)
+router.get("/client/statclient/:idCom",stat_client)
 //get All  objective 
 router.get("/objectif",AllObjective)
 //Get All facture 
