@@ -61,7 +61,7 @@ model commande{
   long Float
   montant_total Float
   ispayed Boolean @default(false)
-  CardItem Card[]
+  CardItem CardItem[]
   ComId Int ?
   commercant commercant? @relation(fields: [ComId],references: [id],onDelete: Cascade,onUpdate: Cascade)
   CliId Int?
