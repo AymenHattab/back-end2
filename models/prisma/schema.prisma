@@ -6,7 +6,7 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = "mysql://root:@192.168.1.24:3306/hgedb04"
+  url      = "mysql://root:@127.0.0.1:3306/hgedb04"
 }
 
 model Admin {
